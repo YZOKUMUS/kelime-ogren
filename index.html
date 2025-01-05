@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelime Oyunu</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: inherit;
+    
+        }
+
+        body {
+
+            
+            font-family: 'cursive ; sans-serif';
+            background: linear-gradient(135deg, #034fc2, #0f62e7);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            background-color: #241111;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90%;
+        }
+
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            margin: 0 0 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar button:hover {
+            background-color: #2980b9;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .arabic {
+            font-size: 150px;
+            margin: 20px auto;
+            font-weight: lighter;
+            color: #eee8e8;
+            border: 2px solid #4CAF50;
+            border-radius: 25% 10%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .options button {
+            font-size: 16px;
+            width: 120px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .options button:hover {
+            background-color: #2980b9;
+        }
+
+        .correct-answer {
+            color: #d9ece1;
+            font-size: 20px;
+        }
+
+        .wrong-answer {
+            color: #93d183;
+            font-size: 15px;
+        }
+
+        .score {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #3fbcdb;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+
+        /* Yanlış cevaplar listesi için stil */
+        .wrong-answers-list {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .wrong-answers-list h4 {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #e7cdc8;
+        }
+
+        .wrong-answers-list ul {
+            list-style-type: "😢";
+            padding: 0;
+        }
+
+        .wrong-answers-list li {
+            margin-bottom: 5px;
+            font-size: 15px;
+            color: #f1e6e6;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="sidebar">
+            <h3>Süreler</h3>
+            <ul>
+                <li v-for="sure in sureler" :key="sure">
+                    <button @click="selectSure(sure)" :class="{ active: sure === selectedSure }">{{ sure }}</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div v-if="isTestStarted">
+                <div class="arabic">{{ currentWord.arabic }}</div>
+                <div class="options">
+                    <button v-for="option in currentOptions" :key="option" @click="checkAnswer(option)">
+                        {{ option }}
+                    </button>
+                </div>
+                <audio :src="currentWord.soundUrl" autoplay></audio>
+                <div class="score">
+                    <p>Doğru: {{ correctCount }}</p>
+                    <p>Yanlış: {{ incorrectCount }}</p>
+                </div>
+                <div class="progress-bar">
+                    <div :style="{ width: progressPercentage + '%' }" class="progress"></div>
+                </div>
+
+                <!--  Cevaplar Listesi -->
+                <div v-if="wrongAnswers.length > 0" class="wrong-answers-list">
+                    <h4>Yanlış Cevaplar:</h4>
+                    <ul>
+                        <li v-for="(item, index) in wrongAnswers" :key="index">
+                            <strong>{{ item.sureAdi }}:</strong> <span>{{ item.word }} - {{ item.turkish }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isTestStarted: false,
+                wordCards: [],
+                currentCardIndex: 0,
+                currentOptions: [],
+                correctAnswer: '',
+                correctCount: 0,
+                incorrectCount: 0,
+                answerShown: false,
+                sureler: [],
+                selectedSure: '',
+                allWords: [],
+                wrongAnswers: [] // Yanlış cevapları saklamak için
+            },
+            computed: {
+                currentWord() {
+                    return this.wordCards[this.currentCardIndex] || {};
+                },
+                progressPercentage() {
+                    return this.wordCards.length ? (this.correctCount / this.wordCards.length) * 100 : 0;
+                }
+            },
+            mounted() {
+                this.loadJson();
+            },
+            methods: {
+                loadJson() {
+                    fetch('./output.json')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Dosya okunamadı');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const surelerSet = new Set(data.map(row => row.sure_adi));
+                            this.sureler = Array.from(surelerSet);
+
+                            this.allWords = data.map(row => ({
+                                arabic: row['arabic_word'] || 'Bilinmiyor',
+                                turkish: row['turkish_meaning'] || 'Bilinmiyor',
+                                soundUrl: row['sound_url'] || '',
+                                sureAdi: row['sure_adi'] || 'Bilinmiyor'
+                            }));
+                        })
+                        .catch(err => {
+                            console.error('Hata:', err);
+                            alert('JSON dosyası yüklenemedi.');
+                        });
+                },
+
+                selectSure(sure) {
+                    this.selectedSure = sure;
+                    this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
+                    this.resetCounters();
+
+                    if (this.wordCards.length > 0) {
+                        this.shuffleArray(this.wordCards);
+                        this.isTestStarted = true;
+                        this.showOptions();
+                    } else {
+                        alert('Bu surede kelime bulunamadı.');
+                    }
+                },
+
+                resetCounters() {
+                    this.correctCount = 0;
+                    this.incorrectCount = 0;
+                    this.currentCardIndex = 0;
+                    this.answerShown = false;
+                    this.wrongAnswers = [];
+                },
+
+                showOptions() {
+                    const correctOption = this.currentWord.turkish;
+                    const otherOptions = this.wordCards
+                        .filter((_, index) => index !== this.currentCardIndex)
+                        .map(card => card.turkish);
+
+                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+                    this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
+                    this.correctAnswer = correctOption;
+                },
+
+                checkAnswer(option) {
+                    if (option === this.correctAnswer) {
+                        this.correctCount++;
+                    } else {
+                        this.incorrectCount++;
+                        this.wrongAnswers.push({
+                            sureAdi: this.selectedSure,
+                            word: this.currentWord.arabic,
+                            turkish: this.correctAnswer
+                        });
+                    }
+                    this.nextWord();
+                },
+
+                nextWord() {
+                    if (this.currentCardIndex < this.wordCards.length - 1) {
+                        this.currentCardIndex++;
+                        this.showOptions();
+                    } else {
+                        alert('Test tamamlandı! Başka bir sure seçebilirsiniz.');
+                        this.isTestStarted = false;
+                    }
+                },
+
+                shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
