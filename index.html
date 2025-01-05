@@ -2,20 +2,17 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Kelime Oyunu</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
-            box-sizing: inherit;
-    
+            box-sizing: border-box;
         }
 
         body {
-
-            
-            font-family: 'cursive ; sans-serif';
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #034fc2, #0f62e7);
             margin: 0;
             padding: 0;
@@ -62,7 +59,8 @@
 
         .sidebar button {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
+            font-size: 18px;
             background-color: #3498db;
             color: white;
             border: none;
@@ -105,7 +103,7 @@
         .options button {
             font-size: 16px;
             width: 120px;
-            height: 40px;
+            height: 50px;
             background-color: #3498db;
             color: white;
             border: none;
@@ -116,16 +114,6 @@
 
         .options button:hover {
             background-color: #2980b9;
-        }
-
-        .correct-answer {
-            color: #d9ece1;
-            font-size: 20px;
-        }
-
-        .wrong-answer {
-            color: #93d183;
-            font-size: 15px;
         }
 
         .score {
@@ -146,7 +134,6 @@
             border-radius: 5px;
         }
 
-        /* Yanlış cevaplar listesi için stil */
         .wrong-answers-list {
             margin-top: 15px;
             width: 100%;
@@ -169,6 +156,38 @@
             color: #f1e6e6;
         }
 
+        /* Mobil için */
+        @media screen and (max-width: 768px) {
+            #app {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .sidebar {
+                flex: none;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                height: auto;
+            }
+
+            .arabic {
+                font-size: 80px;
+                padding: 10px;
+            }
+
+            .options button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .progress-bar {
+                height: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -199,7 +218,6 @@
                     <div :style="{ width: progressPercentage + '%' }" class="progress"></div>
                 </div>
 
-                <!--  Cevaplar Listesi -->
                 <div v-if="wrongAnswers.length > 0" class="wrong-answers-list">
                     <h4>Yanlış Cevaplar:</h4>
                     <ul>
@@ -227,7 +245,7 @@
                 sureler: [],
                 selectedSure: '',
                 allWords: [],
-                wrongAnswers: [] // Yanlış cevapları saklamak için
+                wrongAnswers: []
             },
             computed: {
                 currentWord() {
@@ -243,12 +261,7 @@
             methods: {
                 loadJson() {
                     fetch('https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json')
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Dosya okunamadı');
-                            }
-                            return response.json();
-                        })
+                        .then(response => response.json())
                         .then(data => {
                             const surelerSet = new Set(data.map(row => row.sure_adi));
                             this.sureler = Array.from(surelerSet);
