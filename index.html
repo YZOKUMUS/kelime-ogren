@@ -242,7 +242,7 @@
             },
             methods: {
                 loadJson() {
-                    fetch('./output.json')
+                    fetch('https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json')
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Dosya okunamadı');
