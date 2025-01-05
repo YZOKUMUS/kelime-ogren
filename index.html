@@ -58,9 +58,9 @@
         }
 
         .sidebar button {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
+            width: 20em;
+            padding: auto;
+            font-size: 16px;
             background-color: #3498db;
             color: white;
             border: none;
@@ -74,12 +74,12 @@
         }
 
         .main-content {
-            flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: space-between;
+            flex-direction: column;
             overflow: hidden;
+            flex: 1;
         }
 
         .arabic {
@@ -97,7 +97,7 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 5px;
         }
 
         .options button {
@@ -118,6 +118,8 @@
 
         .score {
             margin-top: 20px;
+            font-size: 18px;
+            color: #fff;
         }
 
         .progress-bar {
@@ -129,7 +131,7 @@
         }
 
         .progress {
-            height: 100%;
+            height: auto;
             background-color: #3498db;
             border-radius: 5px;
         }
@@ -141,7 +143,7 @@
 
         .wrong-answers-list h4 {
             margin-bottom: 10px;
-            font-size: 15px;
+            font-size: 18px;
             color: #e7cdc8;
         }
 
@@ -166,8 +168,8 @@
 
             .sidebar {
                 flex: none;
-                width: 100%;
-                margin-bottom: 20px;
+                width: auto;
+                margin-bottom: auto;
             }
 
             .main-content {
@@ -176,16 +178,16 @@
 
             .arabic {
                 font-size: 80px;
-                padding: 10px;
+                padding: auto;
             }
 
             .options button {
-                width: 100%;
-                margin: 5px 0;
+                width: auto;
+                margin: auto;
             }
 
             .progress-bar {
-                height: 5px;
+                height: auto;
             }
         }
     </style>
@@ -209,17 +211,21 @@
                         {{ option }}
                     </button>
                 </div>
-                <audio :src="currentWord.soundUrl" autoplay></audio>
-                <div class="score">
-                    <p>Doğru: {{ correctCount }}</p>
-                    <p>Yanlış: {{ incorrectCount }}</p>
-                </div>
+                <audio v-if="currentWord.soundUrl" :src="currentWord.soundUrl" autoplay></audio>
                 <div class="progress-bar">
                     <div :style="{ width: progressPercentage + '%' }" class="progress"></div>
                 </div>
+            </div>
+
+            <div v-if="!isTestStarted && testCompleted">
+                <div class="score">
+                    <p>Toplam Soru Sayısı: {{ totalQuestions }}</p>
+                    <p>Doğru Cevaplar: {{ correctCount }}</p>
+                    <p>Yanlış Cevaplar: {{ incorrectCount }}</p>
+                </div>
 
                 <div v-if="wrongAnswers.length > 0" class="wrong-answers-list">
-                    <h4>Yanlış Cevaplar:</h4>
+                    <h4>Yanlış Cevap Verilen Kelimeler:</h4>
                     <ul>
                         <li v-for="(item, index) in wrongAnswers" :key="index">
                             <strong>{{ item.sureAdi }}:</strong> <span>{{ item.word }} - {{ item.turkish }}</span>
@@ -245,7 +251,8 @@
                 sureler: [],
                 selectedSure: '',
                 allWords: [],
-                wrongAnswers: []
+                wrongAnswers: [],
+                testCompleted: false
             },
             computed: {
                 currentWord() {
@@ -253,6 +260,9 @@
                 },
                 progressPercentage() {
                     return this.wordCards.length ? (this.correctCount / this.wordCards.length) * 100 : 0;
+                },
+                totalQuestions() {
+                    return this.wordCards.length;
                 }
             },
             mounted() {
@@ -299,6 +309,7 @@
                     this.currentCardIndex = 0;
                     this.answerShown = false;
                     this.wrongAnswers = [];
+                    this.testCompleted = false;
                 },
 
                 showOptions() {
@@ -331,7 +342,7 @@
                         this.currentCardIndex++;
                         this.showOptions();
                     } else {
-                        alert('Test tamamlandı! Başka bir sure seçebilirsiniz.');
+                        this.testCompleted = true;
                         this.isTestStarted = false;
                     }
                 },
