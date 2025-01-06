@@ -88,7 +88,7 @@ body {
     color: #eee8e8; /* Açık renkli yazı */
     border: 2px solid #4CAF50; /* Yeşil kenarlık */
     border-radius: 15px; /* Köşeleri yuvarlatır */
-    padding: 10px; /* İçerik çevresine boşluk */
+    padding: 0; /* İçerik çevresine boşluk */
     text-align: center; /* Metni ortalar */
 }
 
@@ -104,7 +104,7 @@ body {
 .options button {
     font-size: 16px;
     width: fit-content; /* Sabit genişlik */
-    height: 20px; /* Sabit yükseklik */
+    height: 5px; /* Sabit yükseklik */
     background-color: #3498db; /* Mavi arka plan */
     color: white;
     border: none;
@@ -129,7 +129,7 @@ body {
     #app {
         flex-direction: column; /* Yatay yerine dikey düzen */
         height: auto; /* Yükseklik sınırı kaldırılır */
-        padding: 4px;
+        padding: 1px;
     }
 
     .arabic {
