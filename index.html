@@ -112,20 +112,6 @@
             background-color: #2980b9;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #3fbcdb;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-
-        .progress {
-            height: 10px;
-            background-color: #3498db;
-            border-radius: 5px;
-        }
-
         .score {
             font-size: 18px;
             color: #fff;
@@ -166,9 +152,6 @@
                     <button v-for="option in currentOptions" :key="option" @click="checkAnswer(option)">{{ option }}</button>
                 </div>
                 <audio v-if="currentWord.soundUrl" :src="currentWord.soundUrl" autoplay></audio>
-                <div class="progress-bar">
-                    <div :style="{ width: progressPercentage + '%' }" class="progress"></div>
-                </div>
             </div>
 
             <div v-if="!isTestStarted && testCompleted">
@@ -198,11 +181,6 @@
             computed: {
                 currentWord() {
                     return this.wordCards[this.currentCardIndex] || {};
-                },
-                progressPercentage() {
-                    return this.totalQuestions > 0 
-                        ? ((this.correctCount + this.incorrectCount) / this.totalQuestions) * 100 
-                        : 0;
                 },
                 totalQuestions() {
                     return this.wordCards.length;
