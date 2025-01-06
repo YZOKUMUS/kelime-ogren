@@ -1,0 +1,4 @@
+proje içinde yapılan güncellemeleri github a push etmek
+git add.
+git commit -m "Update index.html"
+git push origin main

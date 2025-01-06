@@ -1,0 +1,139 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #034fc2, #0f62e7);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    background-color: #241111;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 1200px;
+    height: 90%;
+}
+
+.sidebar {
+    flex: 0 0 250px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.sidebar h3 {
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar button {
+    width: 100%;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar button.active {
+    background-color: #27ae60;
+}
+
+.sidebar button:hover {
+    background-color: #2980b9;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.arabic {
+    font-size: 150px;
+    font-weight: lighter;
+    color: #eee8e8;
+    border: 2px solid #4CAF50;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.options button {
+    font-size: 16px;
+    width: 120px;
+    height: 50px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.options button:hover {
+    background-color: #2980b9;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #3fbcdb;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.progress {
+    height: 10px;
+    background-color: #3498db;
+    border-radius: 5px;
+}
+
+.score {
+    font-size: 18px;
+    color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    #app {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .arabic {
+        font-size: 80px;
+    }
+
+    .options button {
+        width: 100%;
+    }
+}
