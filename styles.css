@@ -94,16 +94,16 @@ body {
 
 /* Seçenek butonları düzeni */
 .options {
-    display: flex; /* Flex düzeni */
-    flex-wrap: wrap; /* Satır taşmasına izin verir */
-    gap: 10px; /* Seçenekler arası boşluk */
+    display: grid; /* Flex düzeni */
+    flex-wrap: wrap-reverse; /* Satır taşmasına izin verir */
+    gap: 108px; /* Seçenekler arası boşluk */
     justify-content: center; /* Ortalar */
 }
 
 /* Seçenek butonları */
 .options button {
     font-size: 16px;
-    width: 120px; /* Sabit genişlik */
+    width: fit-content; /* Sabit genişlik */
     height: 50px; /* Sabit yükseklik */
     background-color: #3498db; /* Mavi arka plan */
     color: white;
@@ -129,7 +129,7 @@ body {
     #app {
         flex-direction: column; /* Yatay yerine dikey düzen */
         height: auto; /* Yükseklik sınırı kaldırılır */
-        padding: 10px;
+        padding: 8px;
     }
 
     .arabic {
