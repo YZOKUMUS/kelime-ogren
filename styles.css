@@ -1,139 +1,142 @@
+/* Tüm elementlerin box-sizing özelliğini border-box olarak ayarlar */
 * {
-    box-sizing: border-box;
+    box-sizing: content-box;
+    width: 80%;
 }
 
+/* Body: Sayfanın ana stilini tanımlar (arka plan, font, hizalama) */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #034fc2, #0f62e7);
+    background-color: #d81818; /* Açık gri arka plan */
     margin: 0;
-    display: flex;
+    display: flex; /* İçeriği ortalamak için flexbox kullanır */
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Ekranın tamamını kaplar */
     overflow: hidden;
 }
 
+/* Uygulama ana konteyneri: Stil ve boyut ayarları */
 #app {
-    background-color: #241111;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #241111; /* Koyu arka plan rengi */
+    border-radius: 15px; /* Köşeleri yuvarlatır */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge ekler */
     padding: 20px;
     display: flex;
-    gap: 10px;
-    width: 100%;
-    max-width: 1200px;
-    height: 90%;
+    gap: 10px; /* Bileşenler arası boşluk */
+    width: 100%; /* Tam genişlik */
+    max-width: 1200px; /* Maksimum genişlik */
+    height: 90%; /* Yükseklik */
 }
 
+/* Sol panel (Süreler listesi) */
 .sidebar {
-    flex: 0 0 250px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
+    flex: 0 0 250px; /* Sabit genişlik */
+    background-color: #f1f1f1; /* Açık gri arka plan */
+    border-radius: 10px; /* Köşeleri yuvarlatır */
     padding: 10px;
-    overflow-y: auto;
-    max-height: 300px;
+    overflow-y: auto; /* Dikey kaydırma ekler */
+    max-height: 300px; /* Maksimum yükseklik */
 }
 
+/* Sol panel başlığı */
 .sidebar h3 {
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Başlık altında boşluk */
 }
 
+/* Sol panel liste stili */
 .sidebar ul {
-    list-style: none;
-    padding: 0;
+    list-style: none; /* Liste işaretlerini kaldırır */
+    padding: 0; /* Varsayılan padding'i kaldırır */
 }
 
+/* Süreler butonları */
 .sidebar button {
-    width: 100%;
+    width: 100%; /* Tam genişlik */
     font-size: 16px;
-    background-color: #3498db;
-    color: white;
+    background-color: #3498db; /* Mavi arka plan */
+    color: white; /* Beyaz yazı */
     border: none;
-    border-radius: 5px;
+    border-radius: 5px; /* Köşeleri yuvarlatır */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Hover efekt geçişi */
 }
 
+/* Aktif süre butonu */
 .sidebar button.active {
-    background-color: #27ae60;
+    background-color: #27ae60; /* Yeşil arka plan */
 }
 
+/* Süre buton hover efekti */
 .sidebar button:hover {
-    background-color: #2980b9;
+    background-color: #2980b9; /* Daha koyu mavi */
 }
 
+/* Sağdaki ana içerik */
 .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    flex: 1; /* Genişlik için esnek davranış */
+    display: flex; /* İçerik düzeni için flexbox kullanır */
+    flex-direction: column; /* Dikey düzenleme */
     align-items: center;
     justify-content: center;
 }
 
+/* Arapça kelime gösterimi */
 .arabic {
-    font-size: 150px;
-    font-weight: lighter;
-    color: #eee8e8;
-    border: 2px solid #4CAF50;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
+    font-size: 150px; /* Büyük yazı boyutu */
+    font-weight: lighter; /* Hafif yazı stili */
+    color: #eee8e8; /* Açık renkli yazı */
+    border: 2px solid #4CAF50; /* Yeşil kenarlık */
+    border-radius: 15px; /* Köşeleri yuvarlatır */
+    padding: 20px; /* İçerik çevresine boşluk */
+    text-align: center; /* Metni ortalar */
 }
 
+/* Seçenek butonları düzeni */
 .options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    display: flex; /* Flex düzeni */
+    flex-wrap: wrap; /* Satır taşmasına izin verir */
+    gap: 10px; /* Seçenekler arası boşluk */
+    justify-content: center; /* Ortalar */
 }
 
+/* Seçenek butonları */
 .options button {
     font-size: 16px;
-    width: 120px;
-    height: 50px;
-    background-color: #3498db;
+    width: 120px; /* Sabit genişlik */
+    height: 50px; /* Sabit yükseklik */
+    background-color: #3498db; /* Mavi arka plan */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Hover efekt geçişi */
 }
 
+/* Hover efekti */
 .options button:hover {
-    background-color: #2980b9;
+    background-color: #2980b9; /* Daha koyu mavi */
 }
 
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background-color: #3fbcdb;
-    border-radius: 5px;
-    margin-top: 20px;
-}
-
-.progress {
-    height: 10px;
-    background-color: #3498db;
-    border-radius: 5px;
-}
-
+/* Test sonuçları */
 .score {
     font-size: 18px;
-    color: #fff;
+    color: #fff; /* Beyaz yazı */
 }
 
+/* Mobil cihazlar için düzenlemeler */
 @media screen and (max-width: 768px) {
     #app {
-        flex-direction: column;
-        height: auto;
+        flex-direction: column; /* Yatay yerine dikey düzen */
+        height: auto; /* Yükseklik sınırı kaldırılır */
         padding: 10px;
     }
 
     .arabic {
-        font-size: 80px;
+        font-size: 80px; /* Daha küçük yazı boyutu */
     }
 
     .options button {
-        width: 100%;
+        width: 100%; /* Butonlar tam genişlik olur */
     }
 }

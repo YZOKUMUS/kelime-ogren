@@ -6,7 +6,147 @@
     <title>Kelime Oyunu</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #034fc2, #0f62e7);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            background-color: #241111;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90%;
+        }
+
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar button {
+            width: 100%;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar button.active {
+            background-color: #27ae60;
+        }
+
+        .sidebar button:hover {
+            background-color: #2980b9;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arabic {
+            font-size: 150px;
+            font-weight: lighter;
+            color: #eee8e8;
+            border: 2px solid #4CAF50;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .options button {
+            font-size: 16px;
+            width: 120px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .options button:hover {
+            background-color: #2980b9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #3fbcdb;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .progress {
+            height: 10px;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+
+        .score {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        @media screen and (max-width: 768px) {
+            #app {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .arabic {
+                font-size: 80px;
+            }
+
+            .options button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -39,6 +179,121 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isTestStarted: false,
+                wordCards: [],
+                currentCardIndex: 0,
+                currentOptions: [],
+                correctAnswer: '',
+                correctCount: 0,
+                incorrectCount: 0,
+                sureler: [],
+                selectedSure: '',
+                allWords: [],
+                testCompleted: false
+            },
+            computed: {
+                currentWord() {
+                    return this.wordCards[this.currentCardIndex] || {};
+                },
+                progressPercentage() {
+                    return this.totalQuestions > 0 
+                        ? ((this.correctCount + this.incorrectCount) / this.totalQuestions) * 100 
+                        : 0;
+                },
+                totalQuestions() {
+                    return this.wordCards.length;
+                }
+            },
+            mounted() {
+                this.loadJson();
+            },
+            methods: {
+                loadJson() {
+                    const jsonUrl = 'https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json';
+                    fetch(jsonUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            const surelerSet = new Set(data.map(row => row.sure_adi));
+                            this.sureler = Array.from(surelerSet);
+
+                            this.allWords = data.map(row => ({
+                                arabic: row['arabic_word'] || 'Bilinmiyor',
+                                turkish: row['turkish_meaning'] || 'Bilinmiyor',
+                                soundUrl: row['sound_url'] || '',
+                                sureAdi: row['sure_adi'] || 'Bilinmiyor'
+                            }));
+                        })
+                        .catch(err => {
+                            console.error('Hata:', err);
+                            alert('Kelime listesi yüklenirken bir hata oluştu.');
+                        });
+                },
+
+                selectSure(sure) {
+                    this.selectedSure = sure;
+                    this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
+                    this.resetCounters();
+
+                    if (this.wordCards.length > 0) {
+                        this.shuffleArray(this.wordCards);
+                        this.isTestStarted = true;
+                        this.showOptions();
+                    } else {
+                        alert('Bu surede kelime bulunamadı.');
+                    }
+                },
+
+                resetCounters() {
+                    this.correctCount = 0;
+                    this.incorrectCount = 0;
+                    this.currentCardIndex = 0;
+                    this.testCompleted = false;
+                },
+
+                showOptions() {
+                    const correctOption = this.currentWord.turkish;
+                    const otherOptions = this.wordCards
+                        .filter((_, index) => index !== this.currentCardIndex)
+                        .map(card => card.turkish);
+
+                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+                    this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
+                    this.correctAnswer = correctOption;
+                },
+
+                checkAnswer(option) {
+                    if (option === this.correctAnswer) {
+                        this.correctCount++;
+                    } else {
+                        this.incorrectCount++;
+                    }
+                    this.nextWord();
+                },
+
+                nextWord() {
+                    if (this.currentCardIndex < this.wordCards.length - 1) {
+                        this.currentCardIndex++;
+                        this.showOptions();
+                    } else {
+                        this.testCompleted = true;
+                        this.isTestStarted = false;
+                        alert('Test tamamlandı!');
+                    }
+                },
+
+                shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
