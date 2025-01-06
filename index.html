@@ -238,7 +238,8 @@
                         .filter((_, index) => index !== this.currentCardIndex)
                         .map(card => card.turkish);
 
-                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+                    // Doğru cevabı ve 2 yanlış cevabı seçip karıştırıyoruz
+                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 2);
                     this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
                     this.correctAnswer = correctOption;
                 },
