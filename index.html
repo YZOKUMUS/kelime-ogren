@@ -85,7 +85,10 @@
             color: #eee8e8;
             border: 2px solid #4CAF50;
             border-radius: 15px;
-                        text-align: center;
+            text-align: center;
+            width: 100%;
+            margin: 10px;
+            padding: 10px;
         }
 
         .options {
@@ -93,6 +96,8 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
+            padding:10px;
+            margin:10px;
         }
 
         .options button {
@@ -125,6 +130,8 @@
 
             .arabic {
                 font-size: 80px;
+                width: 95vw;
+                margin: 10px;
             }
 
             .options button {
@@ -238,7 +245,7 @@
                         .map(card => card.turkish);
 
                     // Doğru cevabı ve 2 yanlış cevabı seçip karıştırıyoruz
-                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 2);
+                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
                     this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
                     this.correctAnswer = correctOption;
                 },
@@ -246,8 +253,10 @@
                 checkAnswer(option) {
                     if (option === this.correctAnswer) {
                         this.correctCount++;
+
                     } else {
                         this.incorrectCount++;
+                        alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
                     }
                     this.nextWord();
                 },
