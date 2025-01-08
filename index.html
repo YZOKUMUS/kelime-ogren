@@ -18,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 0%;
+            height: 100vh;
             overflow: hidden;
         }
 
@@ -121,6 +121,12 @@
             color: #fff;
         }
 
+        .current-score {
+            font-size: 16px;
+            color: #fff;
+            margin-top: 10px;
+        }
+
         @media screen and (max-width: 768px) {
             #app {
                 flex-direction: column;
@@ -162,7 +168,13 @@
             <div v-if="!isTestStarted && testCompleted">
                 <div class="score">
                     <p>Doğru: {{ correctCount }} / Yanlış: {{ incorrectCount }}</p>
+                    <p>Toplam Puan: {{ score }}</p>
                 </div>
+            </div>
+            
+            <!-- Doğru cevap sonrası anlık puanı gösteren kısım -->
+            <div v-if="isAnswerCorrect !== null" class="current-score">
+                <p>{{ isAnswerCorrect ? 'Doğru Cevap!' : 'Yanlış Cevap!'}}, Puanınız: {{ score }}</p>
             </div>
         </div>
     </div>
@@ -181,11 +193,15 @@
                 sureler: [],
                 selectedSure: '',
                 allWords: [],
-                testCompleted: false
+                testCompleted: false,
+                score: 0,
+                isAnswerCorrect: null // Cevap doğru mu yanlış mı kontrolü
             },
             computed: {
                 currentWord() {
-                    return this.wordCards[this.currentCardIndex] || {};
+                    return this.wordCards && this.wordCards.length > 0
+                        ? this.wordCards[this.currentCardIndex]
+                        : {};
                 },
                 totalQuestions() {
                     return this.wordCards.length;
@@ -193,6 +209,7 @@
             },
             mounted() {
                 this.loadJson();
+                this.loadGameState();
             },
             methods: {
                 loadJson() {
@@ -235,20 +252,21 @@
                     this.incorrectCount = 0;
                     this.currentCardIndex = 0;
                     this.testCompleted = false;
+                    this.isAnswerCorrect = null; // Yeni testi başlatırken önceki cevabı sıfırla
                 },
 
                 showOptions() {
-                    const correctOption = this.currentWord.turkish;
+                    if (!this.currentWord || !this.currentWord.turkish) {
+                        console.error('currentWord tanımlı değil veya eksik.');
+                        return;
+                    }
 
-                    // Tüm kelimelerden doğru cevabı hariç tutarak diğer seçenekleri belirle
+                    const correctOption = this.currentWord.turkish;
                     const otherOptions = this.allWords
                         .filter(word => word.turkish !== correctOption)
-                        .map(word => word.turkish);
+                        .map(card => card.turkish);
 
-                    // Rastgele 3 yanlış şık seç
                     const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
-
-                    // Doğru şık ve yanlış şıkları karıştır
                     this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
                     this.correctAnswer = correctOption;
                 },
@@ -256,10 +274,14 @@
                 checkAnswer(option) {
                     if (option === this.correctAnswer) {
                         this.correctCount++;
+                        this.score++; // Doğru cevap için puan artır
+                        this.isAnswerCorrect = true; // Cevap doğru
                     } else {
                         this.incorrectCount++;
+                        this.isAnswerCorrect = false; // Cevap yanlış
                         alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
                     }
+                    this.saveGameState(); // Puanı kaydet
                     this.nextWord();
                 },
 
@@ -280,6 +302,39 @@
                         [array[i], array[j]] = [array[j], array[i]];
                     }
                     return array;
+                },
+
+                loadGameState() {
+                    const savedState = localStorage.getItem('gameState');
+                    if (savedState) {
+                        const gameState = JSON.parse(savedState);
+
+                        this.score = gameState.score || 0; // Kaydedilen puanı yükle
+                        this.selectedSure = gameState.selectedSure;
+                        this.wordCards = gameState.wordCards || [];
+                        this.currentCardIndex = gameState.currentCardIndex || 0;
+                        this.correctCount = gameState.correctCount || 0;
+                        this.incorrectCount = gameState.incorrectCount || 0;
+
+                        if (this.wordCards.length > 0) {
+                            this.isTestStarted = true;
+                            this.showOptions();
+                        } else {
+                            console.warn('Kaydedilmiş oyun durumu eksik veya hatalı.');
+                        }
+                    }
+                },
+
+                saveGameState() {
+                    const gameState = {
+                        score: this.score, // Puanı kaydet
+                        selectedSure: this.selectedSure,
+                        wordCards: this.wordCards,
+                        currentCardIndex: this.currentCardIndex,
+                        correctCount: this.correctCount,
+                        incorrectCount: this.incorrectCount
+                    };
+                    localStorage.setItem('gameState', JSON.stringify(gameState));
                 }
             }
         });
