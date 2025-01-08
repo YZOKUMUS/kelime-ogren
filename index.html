@@ -69,14 +69,14 @@
             background-color: #27ae60;
         }
 
-        .sidebar button:hover {
-            background-color: #2980b9;
+        .sidebar button:hover {    
+            background-color: #2980b9;    
         }
 
         .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            flex: 1;    
+            display: flex;    
+            flex-direction: column;    
             align-items: center;
             justify-content: center;
         }
@@ -90,68 +90,68 @@
             border: 2px solid #4CAF50;  /*Kartın etrafına 2 piksel genişliğinde ve yeşil (#4CAF50) renkte bir sınır ekler. Bu, kartı görsel olarak tanımlayıcı hale getirir.*/
             border-radius: 15px;
             text-align: center;   /*Arapça kelime) yatayda ortalanır. Yani, Arapça kelime kartının ortasında yer alır.*/
-            width: 100%;
-            height: 100%;
-            margin: 10px;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            word-wrap: break-word;
+            width: 100%;       /*Arapça kelime kartının genişliğini %100 olarak ayarlar. Bu, kartın içeriğine göre genişleyip daralmasını sağlar.*/
+            height: 100%;      /*Arapça kelime kartının yüksekliğini %100 olarak ayarlar. Bu, kartın içeriğine göre yükselebileceği anlamına gelir.*/
+            margin: 10px;      /*Arapça kelime kartının kenar boşluklarını 10 piksel olarak ayarlar. Bu, kartın içeriğinden dış kenarlarına kadar olan mesafeyi belirler.*/
+            padding: 10px;     /*Arapça kelime kartının içerisindeki metnin etrafına 10 piksel boşluk bırakır. Bu, metnin kartın kenarlarına olan mesafesini belirler.*/
+            display: flex;     /*Arapça kelime kartını yatayda hizalar. Yani, Arapça kelime kartı içerisindeki metni yatayda ortalar.*/
+            justify-content: center;   /*Arapça kelime kartını yatayda ortalar. Yani, Arapça kelime kartı içerisindeki metni yatayda ortalar.*/
+            align-items: center;       /*Arapça kelime kartını dikeyde ortalar. Yani, Arapça kelime kartı içerisindeki metni dikeyde ortalar.*/
+            word-wrap: break-word;          /*Arapça kelime kartının içerisindeki metni, kelime uzunluğuna göre otomatik olarak satır sonuna alır. Bu, kelimenin kartın sınırlarını aşmasını engeller.*/
         }
 
-        .correct-count {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            font-size: 14px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
+        .correct-count {                /* Bu satır eklendi */
+            position: absolute;    /* Elemanın konumunun, en yakın konumlandırılmış (relative, absolute, fixed) üst öğeye göre belirlenmesini sağlar. Bu durumda, doğru cevap sayacı "absolute" konumlandırıldığından, etrafındaki öğelere göre esnek bir şekilde konumlanabilir.Bu satır eklendi */
+            bottom: 10px;        /* Sayacın alt kısmından 10 piksel mesafe bırakır. */
+            right: 10px;            /* Sayacın sağ kısmından 10 piksel mesafe bırakır */
+            background-color: rgba(235, 212, 212, 0.6);   /* Sayacın arka plan rengini siyah ve %60 saydamlıkta ayarlar */
+            color: #fff;                /* Sayacın yazı rengini beyaz yapar. */
+            font-size: 14px;         /* Sayacın yazı font boyutunu 14 piksel olarak ayarlar */
+            padding: 5px 10px;     /* Sayacın içerisindeki metnin etrafına 5 piksel üst ve alt, 10 piksel sağ ve sol boşluk bırakır */
+            border-radius: 5px;         /* Sayacın kenarlarını yuvarlar */
+            font-weight: bold;     /* Sayacın yazı fontunu kalın yapar */
         }
 
         .options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            padding: 10px;
-            margin: 10px;
+            display: flex;              /*Seçenek butonlarını yatayda hizalar */
+            flex-wrap: wrap;                    /*Seçenek butonlarının sığmadığı durumda bir alt satıra geçmesini sağlar */
+            gap: 10px;                  /*Seçenek butonları arasına 10 piksel boşluk bırakır */
+            justify-content: center;            /*Seçenek butonlarını yatayda ortalar */
+            padding: 10px;            /*Seçenek butonlarının etrafına 10 piksel boşluk bırakır */
+            margin: 10px;           /*Seçenek butonlarının dış kenarlarına 10 piksel boşluk bırakır */
         }
 
         .options button {
-            font-size: 16px;
-            width: 100px;
-            height: 40px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 16px;                      /*Buton metin font boyutunu 16 piksel olarak ayarlar */
+            width: 100px;                     /*Buton genişliğini 100 piksel olarak ayarlar */
+            height: 40px;                    /*Buton yüksekliğini 40 piksel olarak ayarlar */
+            background-color: #3498db;      /*Butonun arka plan rengini mavi */
+            color: white;                    /*Butonun metin rengini beyaz */
+            border: solid;                  /*Butonun kenarlığını kaldırır */
+            border-radius: 5px;              /*Butonun kenarlarını yuvarlar */
+            cursor: pointer;                 /*Fare imlecinin butonun üzerine geldiğinde el şeklini almasını sağlar */
+            transition: background-color 0.3s ease;      /*Butonun üzerine gelindiğinde arka plan renginin değişmesini sağlar */
         }
 
         .options button:hover {
-            background-color: #2980b9;
+            background-color: #b9293d; /*Darken the background color when the button is hovered */
         }
 
         @media screen and (max-width: 768px) {
             #app {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
+                flex-direction: column;  /*Küçük ekranlarda, uygulama düşey olarak hizalanır */
+                height: auto;  /*Küçük ekranlarda, uygulama yüksekliği otomatik olarak ayarlanır */
+                padding: 10px;  /*Küçük ekranlarda, uygulama kenar boşlukları 10 piksel olarak ayarlanır */
             }
 
             .arabic {
-                font-size: 80px;
-                width: 95vw;
-                margin: 10px;
+                font-size: 80px; /*Küçük ekranlarda, Arapça kelime font boyutu 80 piksel olarak ayarlanır */
+                width: 95vw;        /*Küçük ekranlarda, Arapça kelime kartının genişliği 95 viewport genişliği olarak ayarlanır */
+                margin: 10px;     /*Küçük ekranlarda, Arapça kelime kartının kenar boşlukları 10 piksel olarak ayarlanır */
             }
 
             .options button {
-                width: 100%;
+                width: 100%;        /*Küçük ekranlarda, seçenek butonlarının genişliği yüzde 100 olarak ayarlanır */
             }
         }
     </style>
