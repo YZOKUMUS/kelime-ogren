@@ -14,6 +14,8 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #034fc2, #0f62e7);
+
+            
             margin: 0;
             display: flex;
             justify-content: center;
@@ -23,7 +25,7 @@
         }
 
         #app {
-            background-color: #241111;
+            background-color:#241111;    /* kahverengi alanın rengini buradan değiştir */
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -80,23 +82,21 @@
         }
 
         .arabic {
-            font-family: 'Amiri', serif; /* Arapça kelimede Amiri fontu kullanılıyor */
-            font-size: 10vw; /* Viewport genişliğine göre dinamik font boyutu */
+            font-family: 'Amiri', serif;
+            font-size: 10vw;
             font-weight: lighter;
             color: #eee8e8;
             border: 2px solid #4CAF50;
             border-radius: 15px;
             text-align: center;
             width: 100%;
-            height: 100%; /* Yüksekliği de sınırlayarak taşmayı engelliyoruz */
+            height: 100%;
             margin: 10px;
             padding: 10px;
-            position: relative;
-            overflow: hidden; /* Taşan metni gizler */
             display: flex;
             justify-content: center;
             align-items: center;
-            word-wrap: break-word; /* Metnin satırlara bölünmesini sağlar */
+            word-wrap: break-word;
         }
 
         .correct-count {
@@ -116,8 +116,8 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
-            padding:10px;
-            margin:10px;
+            padding: 10px;
+            margin: 10px;
         }
 
         .options button {
@@ -169,7 +169,6 @@
             <div v-if="isTestStarted">
                 <div class="arabic">
                     {{ currentWord.arabic }}
-                    <!-- Doğru cevap sayacını burada sağ alt köşeye yerleştiriyoruz -->
                     <div class="correct-count">Doğru: {{ correctCount }}</div>
                 </div>
                 <div class="options">
@@ -179,7 +178,6 @@
             </div>
 
             <div v-if="!isTestStarted && testCompleted">
-                <!-- Diğer yerlerde doğru cevap sayacı görünmeyecek şekilde kaldırıldı -->
                 <div class="score">
                     <p>Doğru: {{ correctCount }} / Yanlış: {{ incorrectCount }}</p>
                     <p>Toplam Puan: {{ score }}</p>
@@ -203,17 +201,13 @@
                 selectedSure: '',
                 allWords: [],
                 testCompleted: false,
-                score: 0,
-                isAnswerCorrect: null // Cevap doğru mu yanlış mı kontrolü
+                score: 0
             },
             computed: {
                 currentWord() {
                     return this.wordCards && this.wordCards.length > 0
                         ? this.wordCards[this.currentCardIndex]
                         : {};
-                },
-                totalQuestions() {
-                    return this.wordCards.length;
                 }
             },
             mounted() {
@@ -245,7 +239,6 @@
                 selectSure(sure) {
                     this.selectedSure = sure;
                     this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
-                    this.resetCounters();
 
                     if (this.wordCards.length > 0) {
                         this.shuffleArray(this.wordCards);
@@ -254,22 +247,14 @@
                     } else {
                         alert('Bu surede kelime bulunamadı.');
                     }
-                },
 
-                resetCounters() {
                     this.correctCount = 0;
                     this.incorrectCount = 0;
                     this.currentCardIndex = 0;
                     this.testCompleted = false;
-                    this.isAnswerCorrect = null; // Yeni testi başlatırken önceki cevabı sıfırla
                 },
 
                 showOptions() {
-                    if (!this.currentWord || !this.currentWord.turkish) {
-                        console.error('currentWord tanımlı değil veya eksik.');
-                        return;
-                    }
-
                     const correctOption = this.currentWord.turkish;
                     const otherOptions = this.allWords
                         .filter(word => word.turkish !== correctOption)
@@ -283,14 +268,12 @@
                 checkAnswer(option) {
                     if (option === this.correctAnswer) {
                         this.correctCount++;
-                        this.score++; // Doğru cevap için puan artır
-                        this.isAnswerCorrect = true; // Cevap doğru
+                        this.score++;
                     } else {
                         this.incorrectCount++;
-                        this.isAnswerCorrect = false; // Cevap yanlış
                         alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
                     }
-                    this.saveGameState(); // Puanı kaydet
+                    this.saveGameState();
                     this.nextWord();
                 },
 
@@ -317,32 +300,12 @@
                     const savedState = localStorage.getItem('gameState');
                     if (savedState) {
                         const gameState = JSON.parse(savedState);
-
-                        this.score = gameState.score || 0; // Kaydedilen puanı yükle
-                        this.selectedSure = gameState.selectedSure;
-                        this.wordCards = gameState.wordCards || [];
-                        this.currentCardIndex = gameState.currentCardIndex || 0;
-                        this.correctCount = gameState.correctCount || 0;
-                        this.incorrectCount = gameState.incorrectCount || 0;
-
-                        if (this.wordCards.length > 0) {
-                            this.isTestStarted = true;
-                            this.showOptions();
-                        } else {
-                            console.warn('Kaydedilmiş oyun durumu eksik veya hatalı.');
-                        }
+                        this.score = gameState.score || 0;
                     }
                 },
 
                 saveGameState() {
-                    const gameState = {
-                        score: this.score, // Puanı kaydet
-                        selectedSure: this.selectedSure,
-                        wordCards: this.wordCards,
-                        currentCardIndex: this.currentCardIndex,
-                        correctCount: this.correctCount,
-                        incorrectCount: this.incorrectCount
-                    };
+                    const gameState = { score: this.score };
                     localStorage.setItem('gameState', JSON.stringify(gameState));
                 }
             }
