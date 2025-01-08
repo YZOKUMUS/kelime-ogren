@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Kelime Oyunu</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -82,16 +81,34 @@
 
         .arabic {
             font-family: 'Amiri', serif; /* Arapça kelimede Amiri fontu kullanılıyor */
-            font-size: 150px;
+            font-size: 10vw; /* Viewport genişliğine göre dinamik font boyutu */
             font-weight: lighter;
             color: #eee8e8;
             border: 2px solid #4CAF50;
             border-radius: 15px;
             text-align: center;
             width: 100%;
+            height: 100%; /* Yüksekliği de sınırlayarak taşmayı engelliyoruz */
             margin: 10px;
             padding: 10px;
-            position: relative; /* Allowing positioning for the score */
+            position: relative;
+            overflow: hidden; /* Taşan metni gizler */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            word-wrap: break-word; /* Metnin satırlara bölünmesini sağlar */
+        }
+
+        .correct-count {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         .options {
@@ -99,8 +116,8 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
-            padding: 10px;
-            margin: 10px;
+            padding:10px;
+            margin:10px;
         }
 
         .options button {
@@ -117,24 +134,6 @@
 
         .options button:hover {
             background-color: #2980b9;
-        }
-
-        .score {
-            font-size: 18px;
-            color: #fff;
-            position: absolute;
-            bottom: 10px; /* Positioning at the bottom */
-            right: 10px;  /* Positioning at the right */
-            font-weight: bold;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .current-score {
-            font-size: 16px;
-            color: #fff;
-            margin-top: 10px;
         }
 
         @media screen and (max-width: 768px) {
@@ -170,8 +169,8 @@
             <div v-if="isTestStarted">
                 <div class="arabic">
                     {{ currentWord.arabic }}
-                    <!-- Score displayed in the bottom-right corner -->
-                    <div class="score">Puan: {{ score }}</div>
+                    <!-- Doğru cevap sayacını burada sağ alt köşeye yerleştiriyoruz -->
+                    <div class="correct-count">Doğru: {{ correctCount }}</div>
                 </div>
                 <div class="options">
                     <button v-for="option in currentOptions" :key="option" @click="checkAnswer(option)">{{ option }}</button>
@@ -180,15 +179,11 @@
             </div>
 
             <div v-if="!isTestStarted && testCompleted">
+                <!-- Diğer yerlerde doğru cevap sayacı görünmeyecek şekilde kaldırıldı -->
                 <div class="score">
                     <p>Doğru: {{ correctCount }} / Yanlış: {{ incorrectCount }}</p>
                     <p>Toplam Puan: {{ score }}</p>
                 </div>
-            </div>
-            
-            <!-- Doğru cevap sonrası anlık puanı gösteren kısım -->
-            <div v-if="isAnswerCorrect !== null" class="current-score">
-                <p>{{ isAnswerCorrect ? 'Doğru Cevap!' : 'Yanlış Cevap!'}}, Puanınız: {{ score }}</p>
             </div>
         </div>
     </div>
