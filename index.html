@@ -189,128 +189,132 @@
 
     <script>
         new Vue({
-            el: '#app',
-            data: {
-                isTestStarted: false,
-                wordCards: [],
-                currentCardIndex: 0,
-                currentOptions: [],
-                correctAnswer: '',
-                correctCount: 0,
-                incorrectCount: 0,
-                sureler: [],
-                selectedSure: '',
-                allWords: [],
-                testCompleted: false,
-                score: 0
-            },
-            computed: {
-                currentWord() {
-                    return this.wordCards && this.wordCards.length > 0
-                        ? this.wordCards[this.currentCardIndex]
-                        : {};
-                }
-            },
-            mounted() {
-                this.loadJson();
-                this.loadGameState();
-            },
-            methods: {
-                loadJson() {
-                    const jsonUrl = 'https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json';
-                    fetch(jsonUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            const surelerSet = new Set(data.map(row => row.sure_adi));
-                            this.sureler = Array.from(surelerSet);
+    el: '#app',
+    data: {
+        isTestStarted: false,
+        wordCards: [],
+        currentCardIndex: 0,
+        currentOptions: [],
+        correctAnswer: '',
+        correctCount: 0,  // Global doğru sayısı
+        incorrectCount: 0,  // Global yanlış sayısı
+        sureler: [],
+        selectedSure: '',
+        allWords: [],
+        testCompleted: false,
+        score: 0
+    },
+    computed: {
+        currentWord() {
+            return this.wordCards && this.wordCards.length > 0
+                ? this.wordCards[this.currentCardIndex]
+                : {};
+        }
+    },
+    mounted() {
+        this.loadJson();
+        this.loadGameState();
+    },
+    methods: {
+        loadJson() {
+            const jsonUrl = 'https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json';
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const surelerSet = new Set(data.map(row => row.sure_adi));
+                    this.sureler = Array.from(surelerSet);
 
-                            this.allWords = data.map(row => ({
-                                arabic: row['arabic_word'] || 'Bilinmiyor',
-                                turkish: row['turkish_meaning'] || 'Bilinmiyor',
-                                soundUrl: row['sound_url'] || '',
-                                sureAdi: row['sure_adi'] || 'Bilinmiyor'
-                            }));
-                        })
-                        .catch(err => {
-                            console.error('Hata:', err);
-                            alert('Kelime listesi yüklenirken bir hata oluştu.');
-                        });
-                },
+                    this.allWords = data.map(row => ({
+                        arabic: row['arabic_word'] || 'Bilinmiyor',
+                        turkish: row['turkish_meaning'] || 'Bilinmiyor',
+                        soundUrl: row['sound_url'] || '',
+                        sureAdi: row['sure_adi'] || 'Bilinmiyor'
+                    }));
+                })
+                .catch(err => {
+                    console.error('Hata:', err);
+                    alert('Kelime listesi yüklenirken bir hata oluştu.');
+                });
+        },
 
-                selectSure(sure) {
-                    this.selectedSure = sure;
-                    this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
+        selectSure(sure) {
+            this.selectedSure = sure;
+            this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
 
-                    if (this.wordCards.length > 0) {
-                        this.shuffleArray(this.wordCards);
-                        this.isTestStarted = true;
-                        this.showOptions();
-                    } else {
-                        alert('Bu surede kelime bulunamadı.');
-                    }
-
-                    this.correctCount = 0;
-                    this.incorrectCount = 0;
-                    this.currentCardIndex = 0;
-                    this.testCompleted = false;
-                },
-
-                showOptions() {
-                    const correctOption = this.currentWord.turkish;
-                    const otherOptions = this.allWords
-                        .filter(word => word.turkish !== correctOption)
-                        .map(card => card.turkish);
-
-                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
-                    this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
-                    this.correctAnswer = correctOption;
-                },
-
-                checkAnswer(option) {
-                    if (option === this.correctAnswer) {
-                        this.correctCount++;
-                        this.score++;
-                    } else {
-                        this.incorrectCount++;
-                        alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
-                    }
-                    this.saveGameState();
-                    this.nextWord();
-                },
-
-                nextWord() {
-                    if (this.currentCardIndex < this.wordCards.length - 1) {
-                        this.currentCardIndex++;
-                        this.showOptions();
-                    } else {
-                        this.testCompleted = true;
-                        this.isTestStarted = false;
-                        alert('Test tamamlandı!');
-                    }
-                },
-
-                shuffleArray(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
-                },
-
-                loadGameState() {
-                    const savedState = localStorage.getItem('gameState');
-                    if (savedState) {
-                        const gameState = JSON.parse(savedState);
-                        this.score = gameState.score || 0;
-                    }
-                },
-
-                saveGameState() {
-                    const gameState = { score: this.score };
-                    localStorage.setItem('gameState', JSON.stringify(gameState));
-                }
+            if (this.wordCards.length > 0) {
+                this.shuffleArray(this.wordCards);
+                this.isTestStarted = true;
+                this.showOptions();
+            } else {
+                alert('Bu surede kelime bulunamadı.');
             }
-        });
+
+            // currentCardIndex sıfırlanır, fakat doğru ve yanlış cevaplar devam eder.
+            this.currentCardIndex = 0;
+            this.testCompleted = false;
+        },
+        showOptions() {
+            const correctOption = this.currentWord.turkish;
+            const otherOptions = this.allWords
+                .filter(word => word.turkish !== correctOption)
+                .map(card => card.turkish);
+
+            const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+            this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
+            this.correctAnswer = correctOption;
+        },
+
+        checkAnswer(option) {
+            if (option === this.correctAnswer) {
+                this.correctCount++;
+                this.score++;
+            } else {
+                this.incorrectCount++;
+                alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
+            }
+            this.saveGameState();
+            this.nextWord();
+        },
+
+        nextWord() {
+            if (this.currentCardIndex < this.wordCards.length - 1) {
+                this.currentCardIndex++;
+                this.showOptions();
+            } else {
+                this.testCompleted = true;
+                this.isTestStarted = false;
+                alert('Test tamamlandı!');
+            }
+        },
+
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        },
+
+        loadGameState() {
+            const savedState = localStorage.getItem('gameState');
+            if (savedState) {
+                const gameState = JSON.parse(savedState);
+                this.score = gameState.score || 0;
+                this.correctCount = gameState.correctCount || 0;
+                this.incorrectCount = gameState.incorrectCount || 0;
+            }
+        },
+
+        saveGameState() {
+            const gameState = {
+                score: this.score,
+                correctCount: this.correctCount,
+                incorrectCount: this.incorrectCount
+            };
+            localStorage.setItem('gameState', JSON.stringify(gameState));
+        }
+    }
+});
     </script>
 </body>
 </html>
