@@ -239,12 +239,16 @@
 
                 showOptions() {
                     const correctOption = this.currentWord.turkish;
-                    const otherOptions = this.wordCards
-                        .filter((_, index) => index !== this.currentCardIndex)
-                        .map(card => card.turkish);
 
-                    // Doğru cevabı ve 2 yanlış cevabı seçip karıştırıyoruz
+                    // Tüm kelimelerden doğru cevabı hariç tutarak diğer seçenekleri belirle
+                    const otherOptions = this.allWords
+                        .filter(word => word.turkish !== correctOption)
+                        .map(word => word.turkish);
+
+                    // Rastgele 3 yanlış şık seç
                     const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+
+                    // Doğru şık ve yanlış şıkları karıştır
                     this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
                     this.correctAnswer = correctOption;
                 },
@@ -252,7 +256,6 @@
                 checkAnswer(option) {
                     if (option === this.correctAnswer) {
                         this.correctCount++;
-
                     } else {
                         this.incorrectCount++;
                         alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
