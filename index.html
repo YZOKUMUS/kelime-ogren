@@ -14,8 +14,6 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #034fc2, #0f62e7);
-
-            
             margin: 0;
             display: flex;
             justify-content: center;
@@ -25,7 +23,7 @@
         }
 
         #app {
-            background-color:#241111;    /* kahverengi alanın rengini buradan değiştir */
+            background-color: #241111;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -69,89 +67,88 @@
             background-color: #27ae60;
         }
 
-        .sidebar button:hover {    
-            background-color: #2980b9;    
+        .sidebar button:hover {
+            background-color: #2980b9;
         }
 
         .main-content {
-            flex: 1;    
-            display: flex;    
-            flex-direction: column;    
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
         .arabic {
-            position: relative;  /* Bu satır eklendi */
             font-family: 'Amiri', serif;
             font-size: 10vw;
             font-weight: lighter;
-            color: #F5D300;    /* arapça kelimenin rengini buradan değiştirebilir */
-            border: 2px solid #4CAF50;  /*Kartın etrafına 2 piksel genişliğinde ve yeşil (#4CAF50) renkte bir sınır ekler. Bu, kartı görsel olarak tanımlayıcı hale getirir.*/
+            color: #F5D300;
+            border: 2px solid #4CAF50;
             border-radius: 15px;
-            text-align: center;   /*Arapça kelime) yatayda ortalanır. Yani, Arapça kelime kartının ortasında yer alır.*/
-            width: 100%;       /*Arapça kelime kartının genişliğini %100 olarak ayarlar. Bu, kartın içeriğine göre genişleyip daralmasını sağlar.*/
-            height: 100%;      /*Arapça kelime kartının yüksekliğini %100 olarak ayarlar. Bu, kartın içeriğine göre yükselebileceği anlamına gelir.*/
-            margin: 10px;      /*Arapça kelime kartının kenar boşluklarını 10 piksel olarak ayarlar. Bu, kartın içeriğinden dış kenarlarına kadar olan mesafeyi belirler.*/
-            padding: 10px;     /*Arapça kelime kartının içerisindeki metnin etrafına 10 piksel boşluk bırakır. Bu, metnin kartın kenarlarına olan mesafesini belirler.*/
-            display: flex;     /*Arapça kelime kartını yatayda hizalar. Yani, Arapça kelime kartı içerisindeki metni yatayda ortalar.*/
-            justify-content: center;   /*Arapça kelime kartını yatayda ortalar. Yani, Arapça kelime kartı içerisindeki metni yatayda ortalar.*/
-            align-items: center;       /*Arapça kelime kartını dikeyde ortalar. Yani, Arapça kelime kartı içerisindeki metni dikeyde ortalar.*/
-            word-wrap: break-word;          /*Arapça kelime kartının içerisindeki metni, kelime uzunluğuna göre otomatik olarak satır sonuna alır. Bu, kelimenin kartın sınırlarını aşmasını engeller.*/
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            word-wrap: break-word;
         }
 
-        .correct-count {                /* Bu satır eklendi */
-            position: absolute;    /* Elemanın konumunun, en yakın konumlandırılmış (relative, absolute, fixed) üst öğeye göre belirlenmesini sağlar. Bu durumda, doğru cevap sayacı "absolute" konumlandırıldığından, etrafındaki öğelere göre esnek bir şekilde konumlanabilir.Bu satır eklendi */
-            bottom: 10px;        /* Sayacın alt kısmından 10 piksel mesafe bırakır. */
-            right: 10px;            /* Sayacın sağ kısmından 10 piksel mesafe bırakır */
-            background-color: rgba(235, 212, 212, 0.6);   /* Sayacın arka plan rengini siyah ve %60 saydamlıkta ayarlar */
-            color: #fff;                /* Sayacın yazı rengini beyaz yapar. */
-            font-size: 14px;         /* Sayacın yazı font boyutunu 14 piksel olarak ayarlar */
-            padding: 5px 10px;     /* Sayacın içerisindeki metnin etrafına 5 piksel üst ve alt, 10 piksel sağ ve sol boşluk bırakır */
-            border-radius: 5px;         /* Sayacın kenarlarını yuvarlar */
-            font-weight: bold;     /* Sayacın yazı fontunu kalın yapar */
+        .correct-count {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(235, 212, 212, 0.6);
+            color: #fff;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         .options {
-            display: flex;              /*Seçenek butonlarını yatayda hizalar */
-            flex-wrap: wrap;                    /*Seçenek butonlarının sığmadığı durumda bir alt satıra geçmesini sağlar */
-            gap: 10px;                  /*Seçenek butonları arasına 10 piksel boşluk bırakır */
-            justify-content: center;            /*Seçenek butonlarını yatayda ortalar */
-            padding: 10px;            /*Seçenek butonlarının etrafına 10 piksel boşluk bırakır */
-            margin: 10px;           /*Seçenek butonlarının dış kenarlarına 10 piksel boşluk bırakır */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+            margin: 10px;
         }
 
         .options button {
-            font-size: 16px;                      /*Buton metin font boyutunu 16 piksel olarak ayarlar */
-            width: 100px;                     /*Buton genişliğini 100 piksel olarak ayarlar */
-            height: 40px;                    /*Buton yüksekliğini 40 piksel olarak ayarlar */
-            background-color: #3498db;      /*Butonun arka plan rengini mavi */
-            color: white;                    /*Butonun metin rengini beyaz */
-            border: solid;                  /*Butonun kenarlığını kaldırır */
-            border-radius: 5px;              /*Butonun kenarlarını yuvarlar */
-            cursor: pointer;                 /*Fare imlecinin butonun üzerine geldiğinde el şeklini almasını sağlar */
-            transition: background-color 0.3s ease;      /*Butonun üzerine gelindiğinde arka plan renginin değişmesini sağlar */
+            font-size: 16px;
+            width: 100px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            border: solid;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .options button:hover {
-            background-color: #b9293d; /*Darken the background color when the button is hovered */
+            background-color: #b9293d;
         }
 
         @media screen and (max-width: 768px) {
             #app {
-                flex-direction: column;  /*Küçük ekranlarda, uygulama düşey olarak hizalanır */
-                height: auto;  /*Küçük ekranlarda, uygulama yüksekliği otomatik olarak ayarlanır */
-                padding: 10px;  /*Küçük ekranlarda, uygulama kenar boşlukları 10 piksel olarak ayarlanır */
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
             }
 
             .arabic {
-                font-size: 80px; /*Küçük ekranlarda, Arapça kelime font boyutu 80 piksel olarak ayarlanır */
-                width: 95vw;        /*Küçük ekranlarda, Arapça kelime kartının genişliği 95 viewport genişliği olarak ayarlanır */
-                margin: 10px;     /*Küçük ekranlarda, Arapça kelime kartının kenar boşlukları 10 piksel olarak ayarlanır */
+                font-size: 80px;
+                width: 95vw;
+                margin: 10px;
             }
 
             .options button {
-                width: 100%;        /*Küçük ekranlarda, seçenek butonlarının genişliği yüzde 100 olarak ayarlanır */
+                width: 100%;
             }
         }
     </style>
@@ -189,132 +186,131 @@
 
     <script>
         new Vue({
-    el: '#app',
-    data: {
-        isTestStarted: false,
-        wordCards: [],
-        currentCardIndex: 0,
-        currentOptions: [],
-        correctAnswer: '',
-        correctCount: 0,  // Global doğru sayısı
-        incorrectCount: 0,  // Global yanlış sayısı
-        sureler: [],
-        selectedSure: '',
-        allWords: [],
-        testCompleted: false,
-        score: 0
-    },
-    computed: {
-        currentWord() {
-            return this.wordCards && this.wordCards.length > 0
-                ? this.wordCards[this.currentCardIndex]
-                : {};
-        }
-    },
-    mounted() {
-        this.loadJson();
-        this.loadGameState();
-    },
-    methods: {
-        loadJson() {
-            const jsonUrl = 'https://raw.githubusercontent.com/YZOKUMUS/kelime-ogren/refs/heads/main/output.json';
-            fetch(jsonUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const surelerSet = new Set(data.map(row => row.sure_adi));
-                    this.sureler = Array.from(surelerSet);
+            el: '#app',
+            data: {
+                isTestStarted: false,
+                wordCards: [],
+                currentCardIndex: 0,
+                currentOptions: [],
+                correctAnswer: '',
+                correctCount: 0,
+                incorrectCount: 0,
+                sureler: [],
+                selectedSure: '',
+                allWords: [],
+                testCompleted: false,
+                score: 0
+            },
+            computed: {
+                currentWord() {
+                    return this.wordCards && this.wordCards.length > 0
+                        ? this.wordCards[this.currentCardIndex]
+                        : {};
+                }
+            },
+            mounted() {
+                this.loadJson();
+                this.loadGameState();
+            },
+            methods: {
+                loadJson() {
+                    const jsonUrl = './output.json'; 
+                    fetch(jsonUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            const surelerSet = new Set(data.map(row => row.sure_adi));
+                            this.sureler = Array.from(surelerSet);
 
-                    this.allWords = data.map(row => ({
-                        arabic: row['arabic_word'] || 'Bilinmiyor',
-                        turkish: row['turkish_meaning'] || 'Bilinmiyor',
-                        soundUrl: row['sound_url'] || '',
-                        sureAdi: row['sure_adi'] || 'Bilinmiyor'
-                    }));
-                })
-                .catch(err => {
-                    console.error('Hata:', err);
-                    alert('Kelime listesi yüklenirken bir hata oluştu.');
-                });
-        },
+                            this.allWords = data.map(row => ({
+                                arabic: row['arabic_word'] || 'Bilinmiyor',
+                                turkish: row['turkish_meaning'] || 'Bilinmiyor',
+                                soundUrl: row['sound_url'] || '',
+                                sureAdi: row['sure_adi'] || 'Bilinmiyor'
+                            }));
+                        })
+                        .catch(err => {
+                            console.error('Hata:', err);
+                            alert('Kelime listesi yüklenirken bir hata oluştu.');
+                        });
+                },
 
-        selectSure(sure) {
-            this.selectedSure = sure;
-            this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
+                selectSure(sure) {
+                    this.selectedSure = sure;
+                    this.wordCards = this.allWords.filter(word => word.sureAdi === sure);
 
-            if (this.wordCards.length > 0) {
-                this.shuffleArray(this.wordCards);
-                this.isTestStarted = true;
-                this.showOptions();
-            } else {
-                alert('Bu surede kelime bulunamadı.');
+                    if (this.wordCards.length > 0) {
+                        this.shuffleArray(this.wordCards);
+                        this.isTestStarted = true;
+                        this.showOptions();
+                    } else {
+                        alert('Bu surede kelime bulunamadı.');
+                    }
+
+                    this.currentCardIndex = 0;
+                    this.testCompleted = false;
+                },
+                showOptions() {
+                    const correctOption = this.currentWord.turkish;
+                    const otherOptions = this.allWords
+                        .filter(word => word.turkish !== correctOption)
+                        .map(card => card.turkish);
+
+                    const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
+                    this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
+                    this.correctAnswer = correctOption;
+                },
+
+                checkAnswer(option) {
+                    if (option === this.correctAnswer) {
+                        this.correctCount++;
+                        this.score++;
+                    } else {
+                        this.incorrectCount++;
+                        alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
+                    }
+                    this.saveGameState();
+                    this.nextWord();
+                },
+
+                nextWord() {
+                    if (this.currentCardIndex < this.wordCards.length - 1) {
+                        this.currentCardIndex++;
+                        this.showOptions();
+                    } else {
+                        this.testCompleted = true;
+                        this.isTestStarted = false;
+                        alert('Test tamamlandı!');
+                    }
+                },
+
+                shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                },
+
+                loadGameState() {
+                    const savedState = localStorage.getItem('gameState');
+                    if (savedState) {
+                        const gameState = JSON.parse(savedState);
+                        this.score = gameState.score || 0;
+                        this.correctCount = gameState.correctCount || 0;
+                        this.incorrectCount = gameState.incorrectCount || 0;
+                    }
+                },
+
+                saveGameState() {
+                    const gameState = {
+                        score: this.score,
+                        correctCount: this.correctCount,
+                        incorrectCount: this.incorrectCount
+                    };
+                    localStorage.setItem('gameState', JSON.stringify(gameState));
+                }
             }
-
-            // currentCardIndex sıfırlanır, fakat doğru ve yanlış cevaplar devam eder.
-            this.currentCardIndex = 0;
-            this.testCompleted = false;
-        },
-        showOptions() {
-            const correctOption = this.currentWord.turkish;
-            const otherOptions = this.allWords
-                .filter(word => word.turkish !== correctOption)
-                .map(card => card.turkish);
-
-            const randomIncorrectOptions = this.shuffleArray(otherOptions).slice(0, 3);
-            this.currentOptions = this.shuffleArray([correctOption, ...randomIncorrectOptions]);
-            this.correctAnswer = correctOption;
-        },
-
-        checkAnswer(option) {
-            if (option === this.correctAnswer) {
-                this.correctCount++;
-                this.score++;
-            } else {
-                this.incorrectCount++;
-                alert(`Yanlış cevap! Doğru cevap: ${this.correctAnswer}`);
-            }
-            this.saveGameState();
-            this.nextWord();
-        },
-
-        nextWord() {
-            if (this.currentCardIndex < this.wordCards.length - 1) {
-                this.currentCardIndex++;
-                this.showOptions();
-            } else {
-                this.testCompleted = true;
-                this.isTestStarted = false;
-                alert('Test tamamlandı!');
-            }
-        },
-
-        shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        },
-
-        loadGameState() {
-            const savedState = localStorage.getItem('gameState');
-            if (savedState) {
-                const gameState = JSON.parse(savedState);
-                this.score = gameState.score || 0;
-                this.correctCount = gameState.correctCount || 0;
-                this.incorrectCount = gameState.incorrectCount || 0;
-            }
-        },
-
-        saveGameState() {
-            const gameState = {
-                score: this.score,
-                correctCount: this.correctCount,
-                incorrectCount: this.incorrectCount
-            };
-            localStorage.setItem('gameState', JSON.stringify(gameState));
-        }
-    }
-});
+        });
     </script>
 </body>
 </html>

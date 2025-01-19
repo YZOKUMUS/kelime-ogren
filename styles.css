@@ -1,143 +1,170 @@
-/* Tüm elementlerin box-sizing özelliğini border-box olarak ayarlar */
 * {
-    box-sizing: content-box;
-    width: 80%;
+    box-sizing: border-box;
 }
 
-/* Body: Sayfanın ana stilini tanımlar (arka plan, font, hizalama) */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #db0707; /* Açık gri arka plan */
+    background-color: #db0707; 
     margin: 0;
-    display: flex; /* İçeriği ortalamak için flexbox kullanır */
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ekranın tamamını kaplar */
+    height: 100vh;
     overflow: hidden;
 }
 
-/* Uygulama ana konteyneri: Stil ve boyut ayarları */
 #app {
-    background-color: #a88065; /* Koyu arka plan rengi */
-    border-radius: 15px; /* Köşeleri yuvarlatır */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge ekler */
+    background-color: #a88065; 
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
-    gap: 10px; /* Bileşenler arası boşluk */
-    width: 100%; /* Tam genişlik */
-    max-width: 100px; /* Maksimum genişlik */
-    height: 80%; /* Yükseklik */
+    gap: 10px;
+    width: 100%;
+    max-width: 100px;
+    height: 80%;
 }
 
-/* Sol panel (Süreler listesi) */
 .sidebar {
-    flex: 0 0 250px; /* Sabit genişlik */
-    background-color: #f1f1f1; /* Açık gri arka plan */
-    border-radius: 10px; /* Köşeleri yuvarlatır */
+    flex: 0 0 250px; 
+    background-color: #f1f1f1; 
+    border-radius: 10px;
     padding: 10px;
-    overflow-y: auto; /* Dikey kaydırma ekler */
-    max-height: 300px; /* Maksimum yükseklik */
+    overflow-y: auto;
+    max-height: 300px;
 }
 
-/* Sol panel başlığı */
 .sidebar h3 {
-    margin-bottom: 10px; /* Başlık altında boşluk */
+    margin-bottom: 10px; 
 }
 
-/* Sol panel liste stili */
 .sidebar ul {
-    list-style: none; /* Liste işaretlerini kaldırır */
-    padding: 0; /* Varsayılan padding'i kaldırır */
+    list-style: none; 
+    padding: 0; 
 }
 
-/* Süreler butonları */
 .sidebar button {
-    width: 100%; /* Tam genişlik */
+    width: 100%; 
     font-size: 16px;
-    background-color: #3498db; /* Mavi arka plan */
-    color: white; /* Beyaz yazı */
+    background-color: #3498db; 
+    color: white; 
     border: none;
-    border-radius: 5px; /* Köşeleri yuvarlatır */
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Hover efekt geçişi */
+    transition: background-color 0.3s ease;
 }
 
-/* Aktif süre butonu */
 .sidebar button.active {
-    background-color: #27ae60; /* Yeşil arka plan */
+    background-color: #27ae60; 
 }
 
-/* Süre buton hover efekti */
 .sidebar button:hover {
-    background-color: #2980b9; /* Daha koyu mavi */
+    background-color: #2980b9; 
 }
 
-/* Sağdaki ana içerik */
 .main-content {
-    flex: 1; /* Genişlik için esnek davranış */
-    display: -ms-flexbox; /* İçerik düzeni için flexbox kullanır */
-    flex-direction: column; /* Dikey düzenleme */
+    flex: 1;
+    display: -ms-flexbox;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-/* Arapça kelime gösterimi */
 .arabic {
-    font-size: 140px; /* Büyük yazı boyutu */
-    font-weight: lighter; /* Hafif yazı stili */
-    color: #eee8e8; /* Açık renkli yazı */
-    background-color: #8fbc8f; /* Açık yeşil arka plan */
-    border: 2px solid #4CAF50; /* Yeşil kenarlık */
-    border-radius: 15px; /* Köşeleri yuvarlatır */
-    padding: 0; /* İçerik çevresine boşluk */
-    text-align: center; /* Metni ortalar */
+    font-size: 140px; 
+    font-weight: lighter; 
+    color: #eee8e8; 
+    background-color: #8fbc8f; 
+    border: 2px solid #4CAF50; 
+    border-radius: 15px; 
+    padding: 0; 
+    text-align: center;
 }
 
-/* Seçenek butonları düzeni */
 .options {
-    display: grid; /* Flex düzeni */
-    flex-wrap: wrap-reverse; /* Satır taşmasına izin verir */
-    gap: 100px; /* Seçenekler arası boşluk */
-    justify-content: center; /* Ortalar */
+    display: grid; 
+    flex-wrap: wrap-reverse;
+    gap: 100px;
+    justify-content: center;
 }
 
-/* Seçenek butonları */
 .options button {
     font-size: 16px;
-    width: fit-content; /* Sabit genişlik */
-    height: 5px; /* Sabit yükseklik */
-    background-color: #3498db; /* Mavi arka plan */
+    width: fit-content; 
+    height: 5px; 
+    background-color: #3498db; 
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Hover efekt geçişi */
+    transition: background-color 0.3s ease;
 }
 
-/* Hover efekti */
 .options button:hover {
-    background-color: #2980b9; /* Daha koyu mavi */
+    background-color: #2980b9;
 }
 
-/* Test sonuçları */
 .score {
     font-size: 18px;
-    color: #fff; /* Beyaz yazı */
+    color: #fff;
 }
 
-/* Mobil cihazlar için düzenlemeler */
 @media screen and (max-width: 768px) {
     #app {
-        flex-direction: column; /* Yatay yerine dikey düzen */
-        height: auto; /* Yükseklik sınırı kaldırılır */
+        flex-direction: column; 
+        height: auto; 
         padding: 1px;
     }
 
     .arabic {
-        font-size: 80px; /* Daha küçük yazı boyutu */
+        font-size: 80px; 
     }
 
     .options button {
-        width: 100%; /* Butonlar tam genişlik olur */
+        width: 100%; 
+    }
+}
+/* Doğru ve yanlış sayıları için stil */
+.correct-count, .score {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6); /* Yarı şeffaf arka plan */
+    margin: 10px;
+}
+
+/* Test tamamlandığında toplam puan görünümü */
+.score {
+    font-size: 20px; /* Biraz daha büyük font boyutu */
+    color: white;
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px; /* Alt boşluk ekleyerek testi tamamladıktan sonra görünmesini sağlamak */
+}
+
+/* Doğru sayıları ekranın sağ üst köşesinde görünecek */
+.correct-count {
+    position: fixed; /* Sayının her zaman sağ üst köşede sabit kalması */
+    top: 10px;
+    right: 10px;
+    z-index: 999; /* Diğer öğelerin üzerine çıkmasını sağlar */
+}
+
+/* Mobil uyumlu hale getirme */
+@media screen and (max-width: 768px) {
+    .correct-count, .score {
+        font-size: 16px;
+        padding: 5px 10px;
+        margin: 5px;
+    }
+
+    .correct-count {
+        position: fixed; /* Mobilde de sağ üst köşede sabit kalacak şekilde konumlandırma */
+        top: 10px;
+        right: 10px;
     }
 }
